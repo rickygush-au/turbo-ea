@@ -1,0 +1,28 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Build with BuildKit'
+  env:
+  - 'DOCKER_BUILDKIT=1'
+  args:
+  - 'build'
+  - '--progress=plain'
+  - '-t'
+  - '$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/$_IMAGE_NAME:latest'
+  - '.'
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Push Image'
+  args:
+  - 'push'
+  - '$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/$_IMAGE_NAME:latest'
+
+images:
+- '$_LOCATION-docker.pkg.dev/$PROJECT_ID/$_REPO_NAME/$_IMAGE_NAME:latest'
+
+substitutions:
+  _LOCATION: 'us-central1'         # Update with your region
+  _REPO_NAME: 'my-repository'      # Update with your Artifact Registry repo
+  _IMAGE_NAME: 'my-app'            # Update with your image name
+
+options:
+  logging: CLOUD_LOGGING_ONLY
