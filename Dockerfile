@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 ARG APP_UID=1000
 ARG APP_GID=1000
 
