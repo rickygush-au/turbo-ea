@@ -132,7 +132,9 @@ RUN addgroup -g ${APP_GID} -S appgroup && adduser -S -D -H -u ${APP_UID} -G appg
 
 COPY nginx/default.conf /etc/nginx/turboea-templates/default.conf.template
 
-RUN printf '#!/bin/sh\nset -eu\n' > /usr/local/bin/turboea-nginx-entrypoint
+RUN cat <<'EOF' > /usr/local/bin/turboea-nginx-entrypoint
+#!/bin/sh
+set -eu
 
 public_url="${TURBO_EA_PUBLIC_URL:-http://localhost:8920}"
 public_scheme="${public_url%%://*}"
