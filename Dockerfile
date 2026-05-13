@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:1
 ARG APP_UID=1000
 ARG APP_GID=1000
 
@@ -133,9 +132,7 @@ RUN addgroup -g ${APP_GID} -S appgroup && adduser -S -D -H -u ${APP_UID} -G appg
 
 COPY nginx/default.conf /etc/nginx/turboea-templates/default.conf.template
 
-RUN cat <<'EOF' > /usr/local/bin/turboea-nginx-entrypoint
-#!/bin/sh
-set -eu
+RUN printf '#!/bin/sh\nset -eu\n' > /usr/local/bin/turboea-nginx-entrypoint
 
 public_url="${TURBO_EA_PUBLIC_URL:-http://localhost:8920}"
 public_scheme="${public_url%%://*}"
